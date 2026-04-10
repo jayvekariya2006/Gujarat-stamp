@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stamp Duty AI System</title>
+
+<style>
+
+/* GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Gujarat_map.svg/1200px-Gujarat_map.svg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+/* DARK OVERLAY */
+body::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* LOGIN PAGE */
+.login {
+    position: absolute;
+    width: 350px;
+    padding: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.login input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+}
+
+.login button {
+    width: 100%;
+    padding: 12px;
+    background: #00ffc8;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* MAIN APP */
+.app {
+    display: none;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    background: rgba(0,0,0,0.6);
+    padding: 20px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+/* MAIN */
+.main {
+    margin-left: 260px;
+    padding: 30px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.08);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* INPUT */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 5px;
+}
+
+/* BUTTON */
+.btn {
+    padding: 14px;
+    background: #00ffc8;
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* RESULT */
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0,255,200,0.2);
+    border-radius: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="loginPage">
+    <h2>Login</h2>
+    <input type="text" id="user" placeholder="Username">
+    <input type="password" id="pass" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>AI System</h2>
+    <button>Dashboard</button>
+    <button>Prediction</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<h1>Stamp Duty Prediction</h1>
+
+<form action="/predict" method="post">
+
+<!-- PROPERTY -->
+<div class="card">
+<h2>Property Details</h2>
+<div class="grid">
+<div>
+<label>Property Type</label>
+<select name="property_type">
+<option>Residential</option>
+<option>Commercial</option>
+</select>
+</div>
+<div>
+<label>Transaction Type</label>
+<select name="transaction_type">
+<option>Sale</option>
+<option>Lease</option>
+</select>
+</div>
+<div>
+<label>Area</label>
+<input name="area">
+</div>
+<div>
+<label>Road Width</label>
+<input name="road_width">
+</div>
+</div>
+</div>
+
+<!-- FINANCIAL -->
+<div class="card">
+<h2>Financial</h2>
+<div class="grid">
+<div>
+<label>Jantri Rate</label>
+<input name="jantri_rate">
+</div>
+<div>
+<label>Declared Value</label>
+<input name="declared_value">
+</div>
+<div>
+<label>Market Value</label>
+<input name="market_value">
+</div>
+<div>
+<label>Loan</label>
+<select name="loan_taken">
+<option value="1">Yes</option>
+<option value="0">No</option>
+</select>
+</div>
+</div>
+</div>
+
+<button class="btn">Predict</button>
+
+</form>
+
+{% if result %}
+<div class="result">
+Predicted Stamp Duty: ₹ {{ result }}
+</div>
+{% endif %}
+
+</div>
+</div>
+
+<script>
+
+/* LOGIN FUNCTION */
+function login(){
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
+
+    if(u === "admin" && p === "1234"){
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("app").style.display = "block";
+    } else {
+        alert("Wrong Username or Password");
+    }
+}
+
+/* LOGOUT */
+function logout(){
+    location.reload();
+}
+
+</script>
+
+</body>
+</html>
